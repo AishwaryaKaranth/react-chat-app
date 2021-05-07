@@ -7,7 +7,8 @@ import {useAuthState, useDarkMode} from './hooks'
 
 const App=()=>{
   return(
-    
+    <>
+    </>
   )
 }
 
