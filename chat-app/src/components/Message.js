@@ -1,7 +1,7 @@
 import React from "react";
 import {formatRelative} from 'date-fns';
 
-const formatDate=()=>{
+const formatDate=(date)=>{
     let formattedDate='';
     if(date){
         formattedDate=formatRelative(date, new Date());
@@ -15,7 +15,7 @@ const Message=({
     createdAt=null,
     text='',
     displayName='',
-    photoUrl='',
+    photoURL='',
 })=>{
     if(!text){
         return null;

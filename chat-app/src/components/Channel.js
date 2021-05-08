@@ -3,9 +3,10 @@ import {useState, useEffect, useRef} from "react";
 import firebase from "firebase";
 import {useFirestoreQuery} from "../hooks";
 import Message from "./Message";
-
+import {db} from "../firebase_config.js";
 const Channel=({user=null})=>{
-    const db=firebase.firestore();
+
+    
     const messagesRef=db.collection("messages");
     const messages=useFirestoreQuery(
         messagesRef.orderBy('createdAt','desc').limit(100)

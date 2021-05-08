@@ -1,10 +1,13 @@
 import React from "react";
 import {useState, useEffect, useRef} from "react";
 import './App.css';
-import firebase from 'firebase';
-import Home from "./Home/home"
+import firebase from "firebase";
+import Channel from "./components/Channel";
+import Message from "./components/Message";
+
 import {useAuthState, useDarkMode} from './hooks'
-import Channel from "./Components/Channel";
+
+
 
 //for dark mode
 const MoonIcon = props => (
@@ -38,30 +41,31 @@ const App=()=>{
 
   const Theme=darkMode?SunIcon:MoonIcon;
 
-  const signInWithGoogle=async()=>{
-    const provider=new firebase.auth.GoogleAuthProvider();
-    try{
-      await firebase.auth().signInWithPopup(provider);
-    }catch(error){
-      console.log(error.message);
-    }
-  }
+  const signInWithGoogle =()=> {
+    
+    const provider = new firebase.auth.GoogleAuthProvider();
+    
+    firebase.auth().useDeviceLanguage();
+     firebase.auth().signInWithPopup(provider);
+    
+  };
 
-  const signOut=async()=>{
-    try{
-      await firebase.auth().signOut();
-    }catch(error){
-      console.log(error.message);
+  const signOut =()=> {
+    firebase.auth().signOut();
+    
+  };
+  const renderContent = () => {
+    if (initializing) {
+      return (
+        <div className="flex items-center justify-center h-full">
+          <p>Loading...</p>
+        </div>
+      );
     }
-  }
 
-  const renderContent=()=>{
-    if(user){
-      return(
-        <Channel user={user}/>
-      )
-    }
-    return(
+    if (user) return <Channel user={user} />;
+
+    return (
       <div className="flex items-center justify-center shadow-md h-full">
         <div className="flex flex-col items-center justify-center max-w-xl w-full mx-4 p-8 rounded-md shadow-card bg-white dark:bg-coolDark-600 transition-all">
           <h2 className="mb-2 text-3xl flex items-center">
@@ -116,17 +120,16 @@ const App=()=>{
           </button>
         </div>
       </div>
-    )
-  }
-return(
-  <div className="flex flex-col h-full bg-white dark:bg-coolDark-500 dark:text-white transition-colors">
+    );
+  };
+
+  return (
+    <div className="flex flex-col h-full bg-white dark:bg-coolDark-500 dark:text-white transition-colors">
       <header
         className="flex-shrink-0 flex items-center justify-between px-4 sm:px-8 shadow-md"
         style={{ height: 'var(--topbar-height)' }}
       >
-        <a href="https://alterclass.io/courses/react">
-          <img src={brandLogo} alt="AlterClass" width={150} />
-        </a>
+        
         <div className="flex items-center">
           {user ? (
             <button
@@ -136,7 +139,7 @@ return(
               Sign out
             </button>
           ) : null}
-          <ThemeIcon
+          <Theme
             className="h-8 w-8 cursor-pointer"
             onClick={() => setDarkMode(prev => !prev)}
           />
@@ -149,10 +152,7 @@ return(
         {renderContent()}
       </main>
     </div>
-)
-  
+  );
 }
 
 export default App;
-
-
