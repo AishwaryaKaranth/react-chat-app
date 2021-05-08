@@ -35,24 +35,21 @@ const SunIcon = props => (
     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
   </svg>
 );
+
+const auth=firebase.auth();
 const App=()=>{
   const {user, initializing}=useAuthState(firebase.auth());
   const [darkMode, setDarkMode]=useDarkMode();
-
+  
   const Theme=darkMode?SunIcon:MoonIcon;
 
-  const signInWithGoogle =()=> {
-    
+  const signInWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
-    
-    firebase.auth().useDeviceLanguage();
-     firebase.auth().signInWithPopup(provider);
-    
-  };
+    auth.signInWithPopup(provider);
+  }
 
   const signOut =()=> {
     firebase.auth().signOut();
-    
   };
   const renderContent = () => {
     if (initializing) {
@@ -81,10 +78,10 @@ const App=()=>{
                 clipRule="evenodd"
               />
             </svg>
-            React FireChat
+            Chattr
           </h2>
           <p className="mb-8 text-lg text-center">
-            The easiest way to chat with people all around the world.
+            Chat App with React and Firebase
           </p>
           <button
             onClick={signInWithGoogle}
